@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/Styles.css">
+    <title>Calendario Eventos</title>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="calendar-title">Calendario de Eventos</h1>
+            <nav>
+              <button class="btn" id="view-annual">Ver Anual</button>
+              <button class="btn" id="view-monthly">Ver Mensual</button>
+              <button class="btn" id="view-daily">Ver Diario</button>
+            </nav>
+          </div>
+      </header>
+    <main>
+        <div id="calendar-container-wrapper">
+            <div id="calendar"></div>
+        </div>
+        <div id="event-form">
+            <h3>Agregar Evento</h3>
+            <form id="form">
+                <input type="text" id="event-title" placeholder="Título del evento" required>
+                <input type="date" id="event-date" required>
+                <select id="event-time" required>
+                    <!-- Opciones de hora se generarán dinámicamente -->
+                </select>
+                <textarea id="event-description" placeholder="Descripción del evento" required></textarea>
+                <input type="text" id="event-participants" placeholder="Nombres de los participantes" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+        
+    </main>
+            <script src="./JS/Script.js"></script>
+</body>
+</html>
