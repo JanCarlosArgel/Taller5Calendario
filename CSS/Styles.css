@@ -165,7 +165,7 @@ main {
     resize: vertical;
 }
 
-#event-form button {
+#save-event {
     background-color: #4CAF50;
     color: white;
     cursor: pointer;
@@ -173,36 +173,61 @@ main {
     transition: background-color 0.3s;
 }
 
-#event-form button:hover {
+#save-event:hover {
     background-color: #45a049;
+}
+
+#update-event {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+#update-event:hover {
+    background-color: #0056b3;
+}
+
+#delete-event {
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+#delete-event:hover {
+    background-color: #d32f2f;
 }
 
 .calendar-container {
     position: relative;
 }
-.btn{
+
+.btn {
     border-radius: 25px;
     background-color: darkturquoise;
     height: 30px;
     width: 100px;
 }
+
 .header-container {
     display: flex;
     justify-content: space-between; /* Espacio entre el título y los botones */
     align-items: center;
-  }
-  
-  .calendar-title {
+}
+
+.calendar-title {
     margin: 0; /* Elimina margen superior */
     color: black;
     margin-left: 25px;
-  }
-  
-  nav {
+}
+
+nav {
     display: flex; /* Mostrar botones en línea */
-  }
-  
-  .btn {
+}
+
+.btn {
     margin-left: 10px; /* Espacio entre botones */
-  }
-  
+}

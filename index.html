@@ -11,31 +11,38 @@
         <div class="header-container">
             <h1 class="calendar-title">Calendario de Eventos</h1>
             <nav>
-              <button class="btn" id="view-annual">Ver Anual</button>
-              <button class="btn" id="view-monthly">Ver Mensual</button>
-              <button class="btn" id="view-daily">Ver Diario</button>
+                <div id="month-selector-container">
+                    <select id="select-month">
+                        <!-- Options will be generated dynamically -->
+                    </select>
+                </div>
+                <button class="btn" id="view-annual">Ver Anual</button>
+                <button class="btn" id="view-monthly">Ver Mensual</button>
+                <button class="btn" id="view-daily">Ver Diario</button>
             </nav>
-          </div>
-      </header>
+        </div>
+    </header>
     <main>
         <div id="calendar-container-wrapper">
             <div id="calendar"></div>
         </div>
         <div id="event-form">
-            <h3>Agregar Evento</h3>
+            <h3>Agregar/Editar Evento</h3>
             <form id="form">
+                <input type="hidden" id="event-id">
                 <input type="text" id="event-title" placeholder="Título del evento" required>
                 <input type="date" id="event-date" required>
                 <select id="event-time" required>
-                    <!-- Opciones de hora se generarán dinámicamente -->
+                    <!-- Options will be generated dynamically -->
                 </select>
                 <textarea id="event-description" placeholder="Descripción del evento" required></textarea>
                 <input type="text" id="event-participants" placeholder="Nombres de los participantes" required>
-                <button type="submit">Guardar</button>
+                <button type="submit" id="save-event">Guardar</button>
+                <button type="button" id="update-event" style="display: none;">Actualizar</button>
+                <button type="button" id="delete-event" style="display: none;">Eliminar</button>
             </form>
         </div>
-        
     </main>
-            <script src="./JS/Script.js"></script>
+    <script src="./JS/Script.js"></script>
 </body>
 </html>
