@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthSelectorContainer = document.getElementById('month-selector-container');
 
     let events = JSON.parse(localStorage.getItem('events')) || {};
+    let selectedDate = new Date();
 
     // Genera opciones de tiempo en intervalos de media hora
     function generateTimeOptions() {
@@ -32,16 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generateCalendar(view = 'monthly', specificDate = new Date()) {
         calendarSection.innerHTML = '';
+        selectedDate = specificDate;
 
         const year = specificDate.getFullYear();
         const month = specificDate.getMonth();
+        const day = specificDate.getDate();
 
         if (view === 'annual') {
             generateAnnualCalendar(year);
         } else if (view === 'monthly') {
             generateMonthlyCalendar(year, month);
         } else if (view === 'daily') {
-            generateDailyCalendar(specificDate);
+            generateDailyCalendar(year, month, day);
         }
     }
 
@@ -128,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dayCell.classList.add('calendar-day');
             dayCell.innerHTML = `<div class="day-number">${day}</div><div class="events-list"></div>`;
             dayCell.dataset.date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            dayCell.addEventListener('click', (event) => openEventForm(event, dayCell.dataset.date));
+            dayCell.addEventListener('click', (event) => generateCalendar('daily', new Date(year, month, day)));
             calendarGrid.appendChild(dayCell);
 
             if (events[dayCell.dataset.date]) {
@@ -144,59 +147,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function generateDailyCalendar(date) {
+    function generateDailyCalendar(year, month, day) {
+        const date = new Date(year, month, day);
         const calendarContainer = document.createElement('div');
         calendarContainer.id = 'calendar-container';
         calendarContainer.classList.add('calendar-daily');
         calendarSection.appendChild(calendarContainer);
 
-        // Contenedor principal con estilo Google Calendar
+        const dailyHeader = document.createElement('h3');
+        dailyHeader.textContent = `${day} ${getMonthName(month)} ${year}`;
+        calendarContainer.appendChild(dailyHeader);
+
         const dailyScheduleContainer = document.createElement('div');
         dailyScheduleContainer.classList.add('daily-schedule-container');
         calendarContainer.appendChild(dailyScheduleContainer);
-
-        // Fila superior con hora actual resaltada
-        const timeHeaderRow = document.createElement('div');
-        timeHeaderRow.classList.add('time-header-row');
-        dailyScheduleContainer.appendChild(timeHeaderRow);
 
         const now = new Date();
         const currentHour = now.getHours();
 
         for (let hour = 0; hour < 24; hour++) {
-            const timeHeaderCell = document.createElement('div');
-            timeHeaderCell.classList.add('time-header-cell');
-            timeHeaderCell.textContent = `${String(hour).padStart(2, '0')}:00`;
-            if (hour === currentHour) {
-                timeHeaderCell.classList.add('current-hour');
-            }
-            timeHeaderRow.appendChild(timeHeaderCell);
-        }
-
-        // Filas de eventos con franjas horarias de 30 minutos
-        const eventRows = document.createElement('div');
-        eventRows.classList.add('event-rows');
-        dailyScheduleContainer.appendChild(eventRows);
-
-        for (let hour = 0; hour < 24; hour++) {
-            const eventRow = document.createElement('div');
-            eventRow.classList.add('event-row');
-            eventRows.appendChild(eventRow);
-
             const timeSlot = document.createElement('div');
             timeSlot.classList.add('time-slot');
             timeSlot.textContent = `${String(hour).padStart(2, '0')}:00`;
-            eventRow.appendChild(timeSlot);
-
-            const halfHourSlot = document.createElement('div');
-            halfHourSlot.classList.add('time-slot');
-            halfHourSlot.textContent = `${String(hour).padStart(2, '0')}:30`;
-            eventRow.appendChild(halfHourSlot);
+            if (hour === currentHour) {
+                timeSlot.classList.add('current-hour');
+            }
 
             const eventSlot = document.createElement('div');
             eventSlot.classList.add('event-slot');
 
-            // Comprueba si hay eventos para esa hora y fecha
             const eventDate = date.toISOString().split('T')[0];
             if (events[eventDate]) {
                 events[eventDate].forEach(event => {
@@ -204,18 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         const eventItem = document.createElement('div');
                         eventItem.classList.add('event-item');
                         eventItem.textContent = event.title;
-                        // Puedes agregar estilos para diferenciar eventos todo el día o por franjas
-                        if (event.time.includes(":00")) {
-                            eventItem.classList.add('all-day-event');
-                        } else {
-                            eventItem.style.top = `${(parseInt(event.time.split(':')[1]) / 2) * 30}px`;
-                            eventItem.style.height = '30px';
-                        }
                         eventSlot.appendChild(eventItem);
                     }
                 });
             }
-            eventRow.appendChild(eventSlot);
+
+            dailyScheduleContainer.appendChild(timeSlot);
+            dailyScheduleContainer.appendChild(eventSlot);
         }
     }
 
@@ -352,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     viewDailyButton.addEventListener('click', () => {
         monthSelectorContainer.style.display = 'none';
-        generateCalendar('daily')
+        generateCalendar('daily', selectedDate);
     });
 
     generateCalendar('monthly');

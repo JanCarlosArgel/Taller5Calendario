@@ -231,3 +231,37 @@ nav {
 .btn {
     margin-left: 10px; /* Espacio entre botones */
 }
+/* Estilo para resaltar los eventos en la vista diaria */
+.event-item {
+    background-color: yellow; /* Color de fondo para resaltar */
+    color: black; /* Color del texto */
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Estilo para la hora actual en la vista diaria */
+.current-hour {
+    background-color: lightblue; /* Color de fondo para la hora actual */
+}
+
+.daily-schedule-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.time-slot {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.event-slot {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
